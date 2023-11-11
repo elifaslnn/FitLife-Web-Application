@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Web application for gym.",
   "main": "script.js",
+  "type": "module",
   "scripts": {
-    "devStart": "nodemon script.js"
+    "start": "nodemon script.js"
   },
   "keywords": [],
   "author": "Emre Kaya, Elif Aslan",
