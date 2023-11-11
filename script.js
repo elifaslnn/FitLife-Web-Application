@@ -46,6 +46,15 @@ let password = 1234
 //create new login
 run_sql(`INSERT INTO login VALUES ( '${user_no}','${mail}','${password}');`)
 
+const rows = await postgresConnection.query('SELECT * FROM login');
 
+// bir obje döndürür aradığımız tüm data burada
+console.log("rows are here : ",rows )
+// tüm satırları bir list halinde döndürür
+console.log("rows are here : ",rows.rows )
+// ilk satırdaki diction verisini döndürür
+console.log("rows are here : ",rows.rows[0] )
+// dictiondaki herhangi bir obje çekilmesi böyle yapılır
+console.log("rows are here : ",rows.rows[0].user_no)
 
 console.log("merhaba emre <3");
