@@ -9,7 +9,7 @@ const postgresConnection = new pg.Pool({
     rejectUnauthorized: false
 }
 })
-
+// postgresql amazon servisindeki konuma bağlanan kısım
 postgresConnection.connect(error => {
     if(error){
         console.log("no connection , error ",error.stack)
@@ -18,22 +18,34 @@ postgresConnection.connect(error => {
     }
 })
 
+// parametre almadan sadece basit bir sql sorgusu çalışıtran fonksiyon
+// örnek tablo oluştur sil vs.
 function run_sql(sql_command){
     postgresConnection.query(sql_command, function(err, result){
         if(err){
-            console.log('error: ', err);
-            process.exit(1);
+            console.log('error at run_sql : ', err);
         }else{
-            console.log("command run sqccesfully")
+            console.log("command run succesfully")
         }
-        process.exit(0);
     });
 }
 
-run_sql("CREATE TABLE IF NOT EXISTS login ();")
-run_sql("DROP TABLE IF EXISTS login;")
-run_sql("DROP TABLE IF EXISTS LogIn;")
-run_sql("DROP TABLE IF EXISTS users;")
+//run_sql("DROP TABLE login;")
+
+// create login table
+run_sql("CREATE TABLE IF NOT EXISTS login ( \
+    user_no INT PRIMARY KEY, \
+    mail TEXT, \
+    password TEXT);")
+
+//create user
+let user_no = 1
+let mail = "sonemre41@gmail.com"
+let password = 1234
+
+//create new login
+run_sql(`INSERT INTO login VALUES ( '${user_no}','${mail}','${password}');`)
+
 
 
 console.log("merhaba emre <3");
