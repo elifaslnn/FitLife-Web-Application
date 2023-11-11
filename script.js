@@ -1,17 +1,13 @@
-const { Client } = require("pg");
-const client = new Client({
-  user: "postgres",
-  host: "fitlife.covtsuyb4can.eu-north-1.rds.amazonaws.com",
-  database: "fitLife",
-  password: "210201eE",
-  port: 5432,
-});
-client.connect(function (err) {
-  if (err) {
-    console.log("Connected!");
-  } else {
-    console.log("ERROR!");
-  }
-});
+import { Pool } from 'pg'
+ 
+const postgresConnection = new Pool({
+  host: 'fitlife.covtsuyb4can.eu-north-1.rds.amazonaws.com',
+  user: 'postgres',
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+})
+
+
 
 console.log("merhaba emre <3");
