@@ -38,6 +38,27 @@ run_sql("CREATE TABLE IF NOT EXISTS login ( \
     mail TEXT, \
     password TEXT);")
 
+
+//run_sql("create table users (mail text primary key,    password text, name text,surname text,  role text , birth_date date, gender text, phone_number INT,    photo text);
+
+//create table trainer (mail text primary key, prof text, experiance text)
+
+//create table diet (id INT primary key, goal text, calorie INT, protein INT, fat INT, carbohydrate INT );
+
+//create table exercise (id INT primary key, name text, goal text, repate int, set int, video text);
+
+//create table users_diet (id INT primary key, mail text, diet_id int);
+
+//create table users_exercise (id INT primary key, mail text, exercise_id INT);
+
+//create table users_diet (id INT primary key, mail text, diet_id int);
+
+//create table messages (id INT primary key, sender_mail text, receiver_mail text, message text)
+
+//create table client_trainer (client_mail text primary key, trainer_mail text);
+
+//create table users_progress (id INT primary key, mail text, weight INT, height INT, fat_rate INT, muscle_mass INT, body_mass_index INT);
+
 //create user
 let user_no = 1
 let mail = "sonemre41@gmail.com"
