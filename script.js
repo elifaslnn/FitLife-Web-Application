@@ -40,13 +40,31 @@ function run_sql(sql_command) {
   postgresConnection.query(sql_command, function (err, result) {
     if (err) {
       console.log("error at run_sql : ", err);
+      return false
     } else {
       console.log("command run succesfully");
+      return true
     }
   });
 }
 
-//run_sql("DROP TABLE login;")
+//run_sql("DROP TABLE users;")
+//run_sql("create table users (mail text primary key, password text NOT NULL, name text,surname text,  role text , birth_date date, gender text, phone_number BIGINT ,    photo text);")
+
+function create_user(mail, password, name, surname, role, birth_date, gender, phone_number, photo){
+  // şifreleme kullanılmış bir kullanıcı oluşturma sorgusu
+  let is_run_ok = run_sql(`INSERT INTO users VALUES ( '${mail}',crypt('${password}', gen_salt('bf',4)), '${name}', '${surname}', '${role}', '${birth_date}', '${gender}', ${phone_number});`);
+  if (is_run_ok){
+    console.log(mail,"user create Done");
+  } else{
+    console.log(mail,"user create Error");
+  }
+}
+
+let mail = "sonemre41@gmail.com"
+let password = 1234
+create_user(mail, password,"emre", "kaya", "client", "2003-11-25", "male", 5382462259, "NoData")
+
 
 // create login table
 /*run_sql(
@@ -77,9 +95,6 @@ function run_sql(sql_command) {
 //create table users_progress (id INT primary key, mail text, weight INT, height INT, fat_rate INT, muscle_mass INT, body_mass_index INT);
 
 //create user
-let user_no = 1;
-let mail = "sonemre41@gmail.com";
-let password = 1234;
 
 //create new login
 //run_sql(`INSERT INTO login VALUES ( '${user_no}','${mail}','${password}');`);
