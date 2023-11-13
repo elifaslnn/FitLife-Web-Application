@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>kayit</title>
+    <link rel="stylesheet" href="signIn.css" />
+  </head>
+  <body>
+    <div class="fullPage">
+      <div class="container">
+        Kullanıcı Girişi
+        <div class="inputs">
+          <input type="text" id="mail" required />
+          <input type="password" id="password" />
+        </div>
+        <div class="buttons">
+          <button class="logIn">log in</button>
+          <button onclick="navigateTo('./registration.html')" class="signIn">
+            sign in
+          </button>
+          <button class="forget">forget my password</button>
+        </div>
+      </div>
+      <img src="gym.jfif" alt="" id="photo" />
+    </div>
+    <script src="signIn.js"></script>
+  </body>
+</html>
