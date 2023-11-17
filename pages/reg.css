@@ -19,6 +19,7 @@
   top: 25%;
 }
 .container {
+  padding-top: 30px;
   color: azure;
 
   position: absolute;
@@ -32,4 +33,8 @@
   flex-direction: column;
   z-index: 1;
   margin: auto;
+}
+
+#signBtn {
+  background-color: rgb(107, 124, 221);
 }
