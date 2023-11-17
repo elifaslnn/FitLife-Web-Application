@@ -41,7 +41,6 @@ app.post("/reg", async(req,res)=>{
     res.json(newuser);
   } catch (error) {
     console.error("server create user error ",error.message);
-    
   }
 
 
@@ -56,3 +55,26 @@ app.get("/reg", async(req,res)=>{
   }
 
 })
+
+
+// forgot api bağlantısı gerekli get ve set fonksiyonları
+app.post("/forgot", async(req,res)=>{
+  try {
+    console.log(req.body);
+    console.log(req.body.mail)
+  } catch (error) {
+    console.error("server forgot error ",error.message);
+  }
+})
+
+app.get("/forgot", async(req,res)=>{
+  try {
+    // mail verileri var olup olmadığı kontrolü için çekilmiştir
+    const ret = await postgresConnection.query("select mail from users;")
+    res.json(ret.rows)
+  } catch (error) {
+    console.error(error.message)
+  }
+
+})
+// ----------

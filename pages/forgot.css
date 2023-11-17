@@ -1,0 +1,25 @@
+
+.fullPage {
+    position: absolute;
+    width: 100%;
+    height: auto;
+    display: flex;
+    z-index: -1;
+  }
+
+  .container {
+    padding-top: 30px;
+    color: azure;
+  
+    position: absolute;
+    width: 50%;
+    height: 95%;
+    top: 50%;
+    left: 50%;
+    background-color: rgba(0, 0, 0, 0.712);
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    margin: auto;
+  }
