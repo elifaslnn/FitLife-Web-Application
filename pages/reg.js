@@ -19,28 +19,8 @@ function visible_passwd() {
     x.type = "password";
   }
 }
-function get_users_data() {
-  console.log(mailInput.value);
-  console.log(passwInput.value);
-  console.log(nameInput.value);
-  console.log(surnameInput.value);
-  console.log(rolesInput.value);
-  console.log(dateInput.value);
-  console.log(genderInput.value);
-  console.log(phoneInput.value);
-  sql_lib.create_user(
-    mailInput.value,
-    passwInput.value,
-    nameInput.value,
-    surnameInput.value,
-    rolesInput.value,
-    dateInput.value,
-    genderInput.value,
-    phoneInput.value
-  );
-}
 
-signBtn.addEventListener("click", function () {
+signBtn.addEventListener("click", async function () {
   console.log(mailInput.value);
   console.log(passwInput.value);
   console.log(nameInput.value);
@@ -49,14 +29,38 @@ signBtn.addEventListener("click", function () {
   console.log(dateInput.value);
   console.log(genderInput.value);
   console.log(phoneInput.value);
-  sql_lib.create_user(
-    mailInput.value,
-    passwInput.value,
-    nameInput.value,
-    surnameInput.value,
-    rolesInput.value,
-    dateInput.value,
-    genderInput.value,
-    phoneInput.value
-  );
+  // api den backende gönder
+
+  try {
+    const description = mailInput.value;
+    const mail = document.getElementById("email").value; 
+    const body =     {
+      "mail": mailInput.value,
+      "password": passwInput.value,
+      "name": nameInput.value,
+      "surname": surnameInput.value,
+      "role": rolesInput.value,
+      "birth_date": dateInput.value,
+      "gender": genderInput.value,
+      "phone_number": phoneInput.value,
+      "photo": null
+  };
+    console.log(description);
+    console.log(body);
+    const response= await fetch("http://localhost:5000/reg",{
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(body)
+    });
+
+    console.log(response);
+    
+  } catch (error) {
+    console.error(error.message);
+    
+  }
+
+  //const response= await fetch("http://localhost:5000/reg");   GET
+  //const jsonData= response.json();
+
 });

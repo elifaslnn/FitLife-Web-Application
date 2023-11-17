@@ -26,3 +26,33 @@ postgresConnection.connect((error) => {
     console.log("success");
   }
 });
+
+
+
+app.post("/reg", async(req,res)=>{
+  try {
+    console.log(req.body);
+
+    console.log(req.body.mail)
+
+    const newuser = await postgresConnection.query(`INSERT INTO users VALUES ( '${req.body.mail}', crypt('${req.body.password}', gen_salt('bf',4)), '${req.body.name}',
+     '${req.body.surname}', '${req.body.role}', '${req.body.birth_date}', '${req.body.gender}', ${req.body.phone_number});`);
+
+    res.json(newuser);
+  } catch (error) {
+    console.error("server create user error ",error.message);
+    
+  }
+
+
+})
+
+app.get("/reg", async(req,res)=>{
+  try {
+    const ret = await postgresConnection.query("select * from users;")
+    res.json(ret.rows)
+  } catch (error) {
+    console.error(error.message)
+  }
+
+})
