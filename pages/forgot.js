@@ -20,6 +20,20 @@ forgotBtn.addEventListener("click", async function () {
       console.log(response);
     } catch (error) {
       console.error(error.message);
-    }  
+    } 
   });
+
+async function forgot_digit() {
+  console.log("forgot_digit runned ");
+  try {
+    const response = await fetch("http://localhost:5000/forgot",
+    {
+      method: "GET",
+    })
+    console.log(response.body);
   
+  } catch (error) {
+    console.error(error.message)
+      
+  }
+}

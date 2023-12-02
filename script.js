@@ -3,6 +3,7 @@ import cors from "cors";
 import { postgresConnection } from "./db.js";
 import path from "path";
 import * as url from "url";
+import nodemailer from "nodemailer";
 
 const app = express();
 const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
@@ -56,25 +57,94 @@ app.get("/reg", async(req,res)=>{
 
 })
 
+// emre ekledi--------------
 
-// forgot api bağlantısı gerekli get ve set fonksiyonları
-app.post("/forgot", async(req,res)=>{
+//mail göndermek için gerekli gönderici değişkeni
+var transporter = nodemailer.createTransport({
+  host: "sandbox.smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "8ed383b0f4ea95",
+    pass: "d69500827f5e6f"
+  }
+});
+
+//mail ile gönderilecek global değişken
+let digit = Math.floor(1000 + Math.random() * 9000)
+
+// forgot api bağlantısı post edildiğinde çalışır ve get eder.
+// request ve response objeleri
+app.post("/forgot", async(req, res) => {
   try {
+    // gönderenin maili (requesterin post ettiği mail)
     console.log(req.body);
-    console.log(req.body.mail)
+    const mail = req.body.mail;
+    let returnedData = await postgresConnection.query(`select mail from users where mail='${mail}';`);
+    console.log(returnedData.rows);
+    if (returnedData.rowCount != 0){
+      // bu mail kullanıldıysa
+      // şifre girişi yapılabilir
+      console.log("bu mail yeni sifre giris: ",mail);
+      // 4 basamaklı bir sayı oluşturur ve gönderir
+      digit = Math.floor(1000 + Math.random() * 9000)
+      var mailOptions = {
+        from: 'FitLife@gmail.com',
+        to: `${mail}`,
+        subject: 'Change Your Password',
+        text: `${digit}`
+      };
+
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+        } else {
+          console.log('Email sent: ' + info.response);
+        }
+      }); 
+
+      //change password as new one
+      let returnedData = await postgresConnection.query(`update users set password = crypt('${digit}', gen_salt('bf',4)) where mail='${mail}';`);
+
+      //returns created
+      res.sendStatus(201);
+    }else{
+      // no content
+      console.log("bu mail ile  kayit yok: ",mail);
+      return res.sendStatus(400);
+    }
   } catch (error) {
-    console.error("server forgot error ",error.message);
+    console.error(error.message)
   }
 })
+// ----------
 
-app.get("/forgot", async(req,res)=>{
+// trainer api
+
+// bu hocanın danışanlarını get eden sql
+
+app.post("/trainersClients", async(req,res)=>{
   try {
-    // mail verileri var olup olmadığı kontrolü için çekilmiştir
-    const ret = await postgresConnection.query("select mail from users;")
+    console.log(req.body.mail)
+    const trainerMail = req.body.mail;
+
+    const clients = await postgresConnection.query(`select client_mail from client_trainer where trainer_mail='${trainerMail}'`);
+
+    res.json(clients);
+  } catch (error) {
+    console.error("server create user error ",error.message);
+  }
+
+
+})
+
+app.get("/trainersClients", async(req,res)=>{
+  try {
+    const ret = await postgresConnection.query("select * from client_trainer;")
     res.json(ret.rows)
   } catch (error) {
     console.error(error.message)
   }
 
 })
-// ----------
+
+// ---------- emre eklemeyi bitirdi ----------------
