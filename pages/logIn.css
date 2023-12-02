@@ -1,0 +1,51 @@
+/* body {
+  align-items: center;
+} */
+.container {
+  color: azure;
+
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 50%;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.712);
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  z-index: 1;
+  margin: auto;
+}
+.fullPage {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  z-index: -1;
+}
+#photo {
+  width: 100%;
+}
+.inputs {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  position: absolute;
+  left: 10%;
+  height: 50%;
+  margin: auto;
+  top: 25%;
+}
+#mail {
+  margin-bottom: 20px;
+  height: 35px;
+}
+
+#password {
+  height: 35px;
+}
+.buttons {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
