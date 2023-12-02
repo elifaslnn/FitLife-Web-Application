@@ -29,3 +29,27 @@ yapılacaktır.
 
 // get add danışan
 
+let mail = "sonemre41@gmail.com";
+
+var clientSelect = document.getElementById("clientSelect");
+var option = document.createElement("option");
+option.text = "Kiwi";
+clientSelect.add(option); 
+
+
+async function getClients() {
+    console.log("getClients runned ");
+    try {
+
+      const response = await fetch(`http://localhost:5000/clients/${mail}`,
+      {})
+      console.log(response.body);
+      const mail = response.body;
+    
+    } catch (error) {
+      console.error(error.message)
+        
+    }
+  }
+
+getClients();

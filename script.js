@@ -57,6 +57,23 @@ app.get("/reg", async(req,res)=>{
 
 })
 
+
+// kullanıcı girişi kontrolü
+
+app.get("/logIn/:mail/:password", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select * from users where mail= $1 and password = crypt($2, password) ",
+      [req.params.mail, req.params.password]
+    );
+    res.json(ret.rowCount);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
+
+
 // emre ekledi--------------
 
 //mail göndermek için gerekli gönderici değişkeni
@@ -122,9 +139,9 @@ app.post("/forgot", async(req, res) => {
 
 // bu hocanın danışanlarını get eden sql
 
-app.post("/trainersClients", async(req,res)=>{
+app.post("/clients/:mail", async(req,res)=>{
   try {
-    console.log(req.body.mail)
+    console.log(req.body)
     const trainerMail = req.body.mail;
 
     const clients = await postgresConnection.query(`select client_mail from client_trainer where trainer_mail='${trainerMail}'`);
@@ -137,7 +154,7 @@ app.post("/trainersClients", async(req,res)=>{
 
 })
 
-app.get("/trainersClients", async(req,res)=>{
+app.get("/clients/:mail", async(req,res)=>{
   try {
     const ret = await postgresConnection.query("select * from client_trainer;")
     res.json(ret.rows)
