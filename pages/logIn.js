@@ -16,7 +16,8 @@ loginBtn.addEventListener("click", async function () {
         if (data == 1) {
           console.log("kullanıcı bulundu");
         } else {
-          console.log("kullanıcı bulunammadı");
+          alert("kullanıcı bulunammadı");
+          console.log("kullanıcı bulunamadı");
         }
       });
   } catch (error) {}

@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  height: 100%;
+  width: 300px;
+  background-color: rgb(27, 48, 70);
+  position: absolute;
+}
+
+.profilPhoto {
+  margin: 0 auto;
+  width: 100px;
+  height: 150px;
+  margin-top: 10px;
+  /* background-color: bisque; */
+  display: flex;
+  justify-content: center;
+}
+.profilPhoto img {
+  margin-top: 50px;
+  width: 150px;
+  height: 170px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.info {
+  padding-top: 20px;
+  list-style: none;
+  display: block;
+  margin: 0 auto;
+  /* background-color: rgb(28, 36, 34); */
+}
+.info li {
+  text-align: center;
+  margin-bottom: 10px;
+  color: antiquewhite;
+}
+.container {
+  position: absolute;
+  left: 300px;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(216, 213, 209);
+}
+
+.cards {
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}
+.cards .card {
+  margin-inline: 10px;
+  position: relative;
+  background-color: rgb(28, 36, 34);
+}
+.card-text {
+  margin-bottom: 40px;
+  color: antiquewhite;
+}
+.btn-primary {
+  margin-top: 40px;
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(170, 188, 204);
+  color: rgb(0, 0, 0);
+}
