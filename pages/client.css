@@ -15,7 +15,6 @@
   width: 100px;
   height: 150px;
   margin-top: 10px;
-  /* background-color: bisque; */
   display: flex;
   justify-content: center;
 }
@@ -32,7 +31,6 @@
   list-style: none;
   display: block;
   margin: 0 auto;
-  /* background-color: rgb(28, 36, 34); */
 }
 .info li {
   text-align: center;
@@ -45,6 +43,8 @@
   height: 100%;
   width: 100%;
   background-color: rgb(216, 213, 209);
+  display: flex;
+  justify-content: center;
 }
 
 .cards {
@@ -71,4 +71,97 @@
   justify-content: center;
   background-color: rgb(170, 188, 204);
   color: rgb(0, 0, 0);
+}
+
+/* .tables {
+  width: 60%;
+  height: 500px;
+  position: absolute;
+  top: 100px;
+  border-radius: 30px;
+}
+.exersiceList {
+  width: max-content;
+}
+.exersiceList li {
+  color: antiquewhite;
+  margin-block: 40px;
+  border-radius: 5px;
+  background-color: rgb(57, 56, 56);
+  height: 40px;
+}
+
+.exersiceList :hover {
+  background-color: antiquewhite;
+  color: rgb(28, 36, 34);
+}
+
+.dietTableImg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: antiquewhite;
+  border-radius: 30px;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+  border-radius: 30px;
+  height: 500px;
+  background-color: rgb(28, 36, 34);
+}
+
+.dietTableImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+} */
+
+.table {
+  width: 60%;
+  height: 500px;
+  position: absolute;
+  top: 100px;
+  border-radius: 30px;
+  background-color: rgb(28, 36, 34);
+}
+
+.exersiceList {
+  width: max-content;
+}
+.table ul li {
+  color: antiquewhite;
+  margin-block: 40px;
+  border-radius: 5px;
+  background-color: rgb(57, 56, 56);
+  height: 40px;
+}
+
+.exersiceList :hover {
+  background-color: antiquewhite;
+  color: rgb(28, 36, 34);
+}
+
+.dietTableImg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: antiquewhite;
+  border-radius: 30px;
+}
+
+.dietTableImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+@media screen and (max-width: 500px) {
 }
