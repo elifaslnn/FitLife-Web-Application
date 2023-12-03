@@ -165,3 +165,16 @@ app.get("/clients/:mail", async(req,res)=>{
 })
 
 // ---------- emre eklemeyi bitirdi ----------------
+
+//kullanıı rolünü döndüren api
+app.post("/role/:mail", async(req,res)=>{
+  try {
+    const userMail = req.body.mail;
+    console.log("mail : ",userMail)
+    const role = await postgresConnection.query(`select role from users where mail='${userMail}'`);
+    console.log("role : ",role.rows[0].role);
+    res.json(role.rows[0].role);
+  } catch (error) {
+    console.error("server post role user error ",error.message);
+  }
+})

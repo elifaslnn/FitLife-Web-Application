@@ -31,25 +31,19 @@ yapılacaktır.
 
 let mail = "sonemre41@gmail.com";
 
-var clientSelect = document.getElementById("clientSelect");
-var option = document.createElement("option");
-option.text = "Kiwi";
-clientSelect.add(option); 
+async function myFunction() {
+  console.log("here ! ");
+  //alert('JavaScript function is running!');
+  var urlParams = new URLSearchParams(window.location.search);
+  var receivedData = Object.fromEntries(urlParams.entries());
 
+  // Use the received data
+  console.log(receivedData);
+  mail = receivedData;
+}
 
-async function getClients() {
-    console.log("getClients runned ");
-    try {
-
-      const response = await fetch(`http://localhost:5000/clients/${mail}`,
-      {})
-      console.log(response.body);
-      const mail = response.body;
-    
-    } catch (error) {
-      console.error(error.message)
-        
-    }
-  }
-
-getClients();
+// Yöntem 1: window.onload kullanarak
+window.onload = function() {
+  console.log("here ! ");
+  myFunction();
+};
