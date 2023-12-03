@@ -178,3 +178,23 @@ app.post("/role/:mail", async(req,res)=>{
     console.error("server post role user error ",error.message);
   }
 })
+
+// trainer ana verileri döndürür
+app.post("/trainer/data/:mail", async(req,res)=>{
+  try {
+    const userMail = req.body.mail;
+    console.log("mail : ",userMail)
+    const trainer_data = await postgresConnection.query(`select * from trainer where mail='${userMail}'`);
+    const trainer_name = await postgresConnection.query(`select name, surname from users where mail='${userMail}'`);
+    const trainer_contact = await postgresConnection.query(`select phone_number from users where mail='${userMail}'`);
+    console.log("trainer_data : ",trainer_data);
+    const data = {"nameSurname" : trainer_name.rows[0].name + trainer_name.rows[0].surname,
+                "prof":trainer_data.rows[0].prof,
+                "experience":trainer_data.rows[0].experience,
+                "contact":trainer_contact.rows[0].phone_number};
+    res.json(data);
+    console.log("data : ",data)
+  } catch (error) {
+    console.error("server post trainer user error ",error.message);
+  }
+})

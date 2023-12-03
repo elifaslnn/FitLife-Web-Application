@@ -36,14 +36,44 @@ async function myFunction() {
   //alert('JavaScript function is running!');
   var urlParams = new URLSearchParams(window.location.search);
   var receivedData = Object.fromEntries(urlParams.entries());
-
   // Use the received data
   console.log(receivedData);
-  mail = receivedData;
+  mail = receivedData.key;
+  updateSelfData();
 }
-
 // Yöntem 1: window.onload kullanarak
 window.onload = function() {
   console.log("here ! ");
   myFunction();
 };
+
+async function updateSelfData(){
+  const body = {"mail": mail};
+  console.log(body);
+  await fetch(`http://localhost:5000/trainer/data/${mail}`,{
+  method:"POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify(body)
+  }).then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+    updateSelfFrontend(data)
+  })
+  .catch((err) => {
+     console.log(err.message);
+  });
+}
+
+function updateSelfFrontend(data){
+  const nameLabel = document.getElementById("name");
+  const profLabel = document.getElementById("prof");
+  const experienceLabel = document.getElementById("experience");
+  const contactLabel = document.getElementById("contact");
+
+  nameLabel.innerHTML = "Ad Soyad : " + data.nameSurname;
+  //kilo aldırma, kilo verdirme, kilo koruma, kas kazanma
+  profLabel.innerHTML = "uzmanlık alanı : " + data.prof;
+  experienceLabel.innerHTML = "deneyim : " + data.experience;
+  contactLabel.innerHTML = "iletişim : " + data.contact;
+
+}
