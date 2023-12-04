@@ -8,7 +8,7 @@ const raportInfo = document.querySelector("#raportInfo");
 const dietBtn = document.querySelector("#dietCard .btn-primary");
 const exerciseBtn = document.querySelector("#exerciseCard .btn-primary");
 const addRaportBtn = document.querySelector("#raportCard .btn-primary");
-const showRaportBtn = document.querySelector(".table button");
+const showRaportBtn = document.querySelector("#showRaportButton");
 
 dietTable.style.display = "none";
 exerciseTable.style.display = "none";
@@ -171,7 +171,6 @@ async function myFunction() {
           var hr = document.createElement("hr");
           var br = document.createElement("br");
           raportInfo.appendChild(br);
-
           raportInfo.appendChild(hr);
         }
       });
