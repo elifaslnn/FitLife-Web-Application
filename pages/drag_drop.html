@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload</title>
+</head>
+<body>
+  <div id="drop-area">
+    <form class="my-form">
+      <p>Sürükle ve bırak veya dosyayı seçin</p>
+      <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+      <label class="button" for="fileElem">Dosya Seç</label>
+    </form>
+    <div class="profilPhoto">
+        <img id="img" src="img/elif.png" alt="" />
+    </div>
+  </div>
+  <script src="drag_drop.js"></script>
+</body>
+</html>

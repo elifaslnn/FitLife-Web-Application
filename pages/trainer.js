@@ -58,6 +58,7 @@ async function updateSelfData(){
   .then((data) => {
     console.log(data)
     updateSelfFrontend(data)
+    getFile();
   })
   .catch((err) => {
      console.log(err.message);
@@ -77,3 +78,66 @@ function updateSelfFrontend(data){
   contactLabel.innerHTML = "iletişim : " + data.contact;
 
 }
+
+const changeDataPageBtn = document.getElementById("changeDataPageBtn");
+const changePasswordPageBtn = document.getElementById("changePasswordPageBtn");
+
+
+changeDataPageBtn.addEventListener("click", async function () {
+  var dataToSend = { key: mail };
+  // Convert data to a URL-encoded string
+  var queryString = new URLSearchParams(dataToSend).toString();
+  window.location.href = 'update_data.html?' + queryString;
+});
+
+changePasswordPageBtn.addEventListener("click", async function () {
+  var dataToSend = { key: mail };
+  // Convert data to a URL-encoded string
+  var queryString = new URLSearchParams(dataToSend).toString();
+  window.location.href = 'update_password.html?' + queryString;
+});
+
+//photo thinks
+function handleFiles(files) {
+  const file = files[0];
+
+  if (file) {
+    uploadFile(file);
+  }
+}
+
+function uploadFile(file) {
+  const formData = new FormData();
+  formData.append('photo', file);
+  formData.append('mail', mail);
+  console.log(mail)
+
+  fetch('/upload', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => response.text())
+  .then(message => {
+    console.log(message);
+  })
+  .catch(error => {
+    console.error('Hata:', error);
+  });
+}
+
+async function getFile() {
+    const body = {"mail": mail};
+    console.log(mail)
+  
+    await fetch(`/upload/${mail}`, {
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+
+        document.getElementById("img").src = result
+    })
+    .catch(error => {
+      console.error('Hata:', error);
+    });
+  }

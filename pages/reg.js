@@ -11,8 +11,36 @@ const signBtn = document.getElementById("signBtn");
 // import * as sql_lib from "./sql_lib.js";
 //var sql_lib = require("./libs/sql_lib.js");
 
+
+var file = "";
+
+//photo thinks
+function handleFiles(files) {
+  file = files[0];
+}
+
+async function uploadFile(file) {
+  const mail = mailInput.value; 
+  const formData = new FormData();
+  formData.append('photo', file);
+  formData.append('mail', mail);
+  console.log(mail)
+
+  await fetch('/upload', {
+    method: 'POST',
+    body: formData,
+  })
+  .then(response => response.text())
+  .then(message => {
+    console.log(message);
+  })
+  .catch(error => {
+    console.error('Hata:', error);
+  });
+}
+
 function visible_passwd() {
-  var x = document.getElementById("password_visible");
+  var x = document.getElementById("password");
   if (x.type === "password") {
     x.type = "text";
   } else {
@@ -52,6 +80,12 @@ signBtn.addEventListener("click", async function () {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(body)
     });
+
+    if (file) {
+      uploadFile(file);
+    }else{
+      alert("photo file error")
+    }
 
     console.log(response);
     

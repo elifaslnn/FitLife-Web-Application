@@ -198,3 +198,154 @@ app.post("/trainer/data/:mail", async(req,res)=>{
     console.error("server post trainer user error ",error.message);
   }
 })
+
+
+app.post("/change_password", async(req,res)=>{
+  try {
+    const changed_password = await postgresConnection.query(`UPDATE users set password=crypt('${req.body.password}', gen_salt('bf',4)) where mail='${req.body.mail}' ;`);
+
+    res.json(changed_password);
+  } catch (error) {
+    console.error("server create user error ",error.message);
+  }
+})
+
+app.get("/change_data/:mail", async(req,res)=>{
+  try {
+    const mail = req.params.mail;
+    console.log("mail : ",mail);
+    const ret = await postgresConnection.query(`select * from users where mail='${mail}';`);
+    console.log(ret.rows)
+    res.json(ret.rows[0]);
+  } catch (error) {
+    console.error(error.message)
+  }
+})
+
+app.post("/change_data", async(req,res)=>{
+  try {
+    const mail = req.body.mail;
+    console.log("mail : ",mail);
+    const changed_password = await postgresConnection.query(`UPDATE users set name='${req.body.name}', surname='${req.body.surname}',
+    role='${req.body.role}', birth_date='${req.body.birth_date}', gender='${req.body.gender}', phone_number='${req.body.phone_number}',
+    photo='${req.body.photo}' where mail='${req.body.mail}' ;`);
+
+    res.json(changed_password);
+  } catch (error) {
+    console.error(error.message)
+  }
+})
+
+
+
+//dragDrop
+
+import multer from "multer";
+
+
+// Multer konfigürasyonu
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+// Dosya yükleme endpoint'i
+app.post('/upload', upload.single('photo'), async (req, res) => {
+  try {
+    // Dosya verisini al
+    const fileBuffer = req.file.buffer;
+    const mail = req.body.mail;
+    console.log(mail)
+
+    // PostgreSQL'e yaz
+    const query = `UPDATE users SET photo = $1 WHERE mail='${mail}';`;
+    await postgresConnection.query(query, [fileBuffer]);
+
+    res.send('Dosya başarıyla yüklendi ve veritabanına kaydedildi.');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Bir hata oluştu.');
+  }
+});
+
+app.get('/upload/:mail', async (req, res) => {
+  try {
+    // Dosya verisini al
+    const mail = req.params.mail;
+    console.log(mail)
+
+    // PostgreSQL'e yaz
+    const query = `select photo from users WHERE mail='${mail}';`;
+    const result = await postgresConnection.query(query);
+    const base64Image = result.rows[0].photo.toString('base64');
+    const imageSrc = `data:image/jpeg;base64,${base64Image}`;
+    res.json(imageSrc);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Bir hata oluştu.');
+  }
+});
+
+///////// CLİENT BİLGİLERİNİ ÇEKME ////////////////
+app.get("/client/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select * from users  inner join users_progress on users.mail= users_progress.mail  where users.mail= $1",
+      [req.params.mail]
+    );
+    res.json(ret.rows[0]);
+  } catch (error) {
+    error.message(error);
+  }
+});
+
+//kullanıcı diet bilgilerini çek
+app.get("/client/diet/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select * from diet inner join users_diet on diet.id= users_diet.diet_id  where users_diet.mail= $1",
+      [req.params.mail]
+    );
+    res.json(ret.rows[0]);
+  } catch (error) {
+    console.message(error);
+  }
+});
+
+//kullanıcı egzersiz bilgilerini çek
+app.get("/client/exercise/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select * from exercise inner join users_exercise on exercise.id= users_exercise.exercise_id where users_exercise.mail= $1",
+      [req.params.mail]
+    );
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
+
+//kullanıcının güncel durumunun sisteme kayıdı
+app.post("/client", async (req, res) => {
+  try {
+    const newRaport = await postgresConnection.query(
+      `INSERT INTO users_progress (mail, weight, height, fat_rate, muscle_mass, body_mass_index) VALUES ('${req.body.mail}', ${req.body.weight}, ${req.body.height}, ${req.body.fat_rate}, ${req.body.muscle_mass}, ${req.body.body_mass_index});`
+    );
+
+    res.json(newRaport);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//kullanıcıya ait raporları çek
+
+app.get("/client/raport/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select * from users_progress where mail=$1",
+      [req.params.mail]
+    );
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
