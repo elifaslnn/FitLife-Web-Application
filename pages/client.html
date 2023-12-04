@@ -18,11 +18,11 @@
         <img src="img/elif.png" alt="" />
       </div>
       <div class="info">
-        <li class="in">Ad Soyad</li>
-        <li class="in">yaş</li>
-        <li class="in">kilo</li>
-        <li class="in">boy</li>
-        <li class="in">hedef</li>
+        <li class="in" id="nameSurname">Ad Soyad</li>
+        <li class="in" id="age">yaş</li>
+        <li class="in" id="weight">kilo</li>
+        <li class="in" id="height">boy</li>
+        <li class="in" id="goal">hedef</li>
       </div>
     </div>
     <!--  -->
@@ -65,13 +65,17 @@
         </div>
       </div>
       <!--  -->
+      <!--  -->
+      <!--  -->
+      <button class="previous">&laquo; Menü</button>
+      <!--  -->
       <div class="table" id="dietTable">
         <ul class="exersiceList">
-          <li>Hedef:</li>
-          <li>Kalori:</li>
-          <li>Protein:</li>
-          <li>Yağ:</li>
-          <li>Karbonhidrat:</li>
+          <li id="dgoal">Hedef:</li>
+          <li id="dcalorie">Kalori:</li>
+          <li id="dprotein">Protein:</li>
+          <li id="dfat">Yağ:</li>
+          <li id="dcarbonhydrate">Karbonhidrat:</li>
         </ul>
         <div class="dietTableImg">
           <img src="img/dietTable.jfif" alt="" />
@@ -80,29 +84,55 @@
       <!--  -->
       <div class="table" id="exerciseTable">
         <ul class="exersiceList">
-          <li>Egzersiz Adı/ tekrar:/set:</li>
-          <li>Egzersiz Adı/ tekrar:/set:</li>
-          <li>Egzersiz Adı/ tekrar:/set:</li>
-          <li>Egzersiz Adı/ tekrar:/set:</li>
-          <li>Egzersiz Adı/ tekrar:/set:</li>
+          <li id="e0">Egzersiz Adı/ tekrar:/set: <button>video</button></li>
+          <li id="e1">Egzersiz Adı/ tekrar:/set:</li>
+          <li id="e2">Egzersiz Adı/ tekrar:/set:</li>
+          <li id="e3">Egzersiz Adı/ tekrar:/set:</li>
         </ul>
         <div class="dietTableImg">
-          <img src="img/exerciseTable.jfif" alt="" />
+          <!-- <img src="img/exerciseTable.jfif" alt="" /> -->
+          <!-- <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/aPUVUrS2oC0?si=1Mp7iRAzqAW7ZJ4e"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe> -->
         </div>
       </div>
       <!--  -->
       <div class="table" id="raport">
         <ul class="exersiceList">
-          <li>Güncel Kilo:</li>
-          <li>1 hafta önceki kilo:</li>
-          <li>yağ oranı:</li>
-          <li>vücut kitle endeksi</li>
-          <li>yakılan kalori</li>
+          <li>
+            <input type="text" id="r0" placeholder="Güncel kilonuz(kg)" />
+          </li>
+          <li>
+            <input type="text" id="r1" placeholder="Güncel Boyunuz(cm)" />
+          </li>
+
+          <li>
+            <input type="text" id="r2" placeholder="Güncel Yağ Oranınız" />
+          </li>
+          <li>
+            <input type="text" id="r3" placeholder="Güncel Kas Kütleniz" />
+          </li>
+          <li>
+            <input
+              type="text"
+              id="r4"
+              placeholder="Güncel Vücut Kitle Endeksi"
+            />
+          </li>
         </ul>
+        <button>Rapor</button>
         <div class="dietTableImg">
           <img src="img/raportTable.jfif" alt="" />
         </div>
       </div>
+      <!--  -->
+      <div class="table" id="raportInfo"></div>
     </div>
 
     <script src="client.js" type="module"></script>
