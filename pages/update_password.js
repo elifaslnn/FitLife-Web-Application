@@ -28,7 +28,6 @@ window.onload = function() {
 changePasswordBtn.addEventListener("click", async function () {
   console.log("login butonu tıklandı");
   const password = old_Input.value;
-  mail = "emre"
   try {
     await fetch(`http://localhost:5000/logIn/${mail}/${password}`)
       .then((data) => {
