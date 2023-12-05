@@ -6,7 +6,7 @@ const genderInput = document.getElementById("gender");
 const phoneInput = document.getElementById("phone");
 const changeDataBtn = document.getElementById("changeDataBtn");
 
-var mail = "sonemre41@gmail.com";
+var mail = "";
 
 var file = "";
 
@@ -46,7 +46,6 @@ async function myFunction() {
   mail = receivedData.key;
 
   //tüm entrylere önceki verileri koy
-  mail = "emre";
 
   try {
     await fetch(`http://localhost:5000/change_data/${mail}`)
