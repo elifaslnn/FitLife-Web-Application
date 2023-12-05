@@ -7,6 +7,7 @@ const dateInput = document.getElementById("date");
 const genderInput = document.getElementById("gender");
 const phoneInput = document.getElementById("phone");
 const signBtn = document.getElementById("signBtn");
+const goalInput = document.getElementById("goal");
 ////////////////
 // import * as sql_lib from "./sql_lib.js";
 //var sql_lib = require("./libs/sql_lib.js");
@@ -39,6 +40,42 @@ async function uploadFile(file) {
   });
 }
 
+async function set_trainer() {
+  const mail = mailInput.value; 
+  const body = {"mail": mail};
+
+  await fetch('/trainer_set', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  })
+  .catch(error => {
+    console.error('Hata:', error);
+  });
+}
+
+async function clientSetData() {
+  try {
+    const mail = mailInput.value; 
+    const body = {
+      mail: mail,
+      weight: 0,
+      height: 0,
+      fat_rate: 0,
+      muscle_mass: 0,
+      body_mass_index: 0,
+    };
+    console.log(body);
+    const response = await fetch(`http://localhost:5000/client`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
 function visible_passwd() {
   var x = document.getElementById("password");
   if (x.type === "password") {
@@ -57,6 +94,7 @@ signBtn.addEventListener("click", async function () {
   console.log(dateInput.value);
   console.log(genderInput.value);
   console.log(phoneInput.value);
+  console.log(goalInput.value);
   // api den backende gönder
 
   try {
@@ -71,6 +109,7 @@ signBtn.addEventListener("click", async function () {
       "birth_date": dateInput.value,
       "gender": genderInput.value,
       "phone_number": phoneInput.value,
+      "goal": goalInput.value,
       "photo": null
   };
     console.log(description);
@@ -79,15 +118,25 @@ signBtn.addEventListener("click", async function () {
       method:"POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(body)
-    });
+    }).then(()=>{
+      if (file) {
+        uploadFile(file)
+        alert("photo setted")
+      }else{
+        alert("photo file error")
+      }
+      if(rolesInput.value == "client"){
+        clientSetData().then(async()=>{
+          set_trainer();
+          alert("trainer atanıyor")
+        })
 
-    if (file) {
-      uploadFile(file);
-    }else{
-      alert("photo file error")
-    }
-
-    console.log(response);
+      }else{
+        alert("trainer oluşturuldu")
+      }
+      alert("user created.")
+      window.location.href = 'login.html';
+    })
     
   } catch (error) {
     console.error(error.message);

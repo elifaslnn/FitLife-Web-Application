@@ -15,7 +15,7 @@
   <body>
     <div class="sidebar">
       <div class="profilPhoto">
-        <img src="img/elif.png" alt="" />
+        <img id="img" src="img/elif.png" alt="" />
       </div>
       <div class="info">
         <li class="in" id="nameSurname">Ad Soyad</li>
@@ -24,6 +24,9 @@
         <li class="in" id="height">boy</li>
         <li class="in" id="goal">hedef</li>
       </div>
+      <button class="form-control" type="submit" id="changeDataPageBtn">changeDataBtn</button>
+
+      <button class="form-control" type="submit" id="changePasswordPageBtn">changePasswordBtn</button>
     </div>
     <!--  -->
     <!--  -->
@@ -49,7 +52,7 @@
               Danışmanınız sizin için özel hazırladığı beslenme planınıza
               buradan erişebilirsiniz.
             </p>
-            <a href="#" class="btn btn-primary">Beslenme Planı</a>
+            <a class="btn btn-primary">Beslenme Planı</a>
           </div>
         </div>
         <!--  -->
@@ -63,7 +66,25 @@
             <a href="#" class="btn btn-primary">Rapor</a>
           </div>
         </div>
+        <div class="card" id="messageCard" style="width: 18rem">
+          <img src="./img/mail2.jpg" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <div class="MessageCont">
+              <p class="card-text">
+                Mesaj Gönder
+              </p>
+                <div class="form-group">
+                  <label for="messageInput">Enter your message:</label>
+                  <input type="text" class="form-control" id="messageInput" placeholder="Type your message...">
+                </div>
+                <button id="messagevievbtn" class="btn btn-primary">View</button>
+              <div id="messages"></div>
+            </div>
+            <!--  -->
+          </div>
+        </div>
       </div>
+      <button id="messagebtn" class="btn btn-primary">Send</button>
       <!--  -->
       <!--  -->
       <!--  -->
@@ -127,6 +148,17 @@
           </li>
         </ul>
         <button id="showRaportButton">Rapor</button>
+        <div class="dietTableImg">
+          <img src="img/raportTable.jfif" alt="" />
+        </div>
+      </div>
+      <!--  -->
+      <div class="table" id="messager">
+        <ul class="messageList" id = "messageList">
+          <li class="card-text">
+            mesaj
+          </li>
+        </ul>
         <div class="dietTableImg">
           <img src="img/raportTable.jfif" alt="" />
         </div>

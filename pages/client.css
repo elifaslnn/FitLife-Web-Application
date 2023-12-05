@@ -85,6 +85,11 @@
 .exersiceList {
   width: max-content;
 }
+
+.messageList {
+  width: max-content;
+}
+
 .table ul li {
   color: antiquewhite;
   margin-block: 40px;
@@ -166,4 +171,9 @@
   .sidebar {
     height: 100%;
   }
+}
+
+#messagebtn{
+  position: absolute;
+  right: 100px;
 }

@@ -36,8 +36,8 @@ app.post("/reg", async(req,res)=>{
 
     console.log(req.body.mail)
 
-    const newuser = await postgresConnection.query(`INSERT INTO users VALUES ( '${req.body.mail}', crypt('${req.body.password}', gen_salt('bf',4)), '${req.body.name}',
-     '${req.body.surname}', '${req.body.role}', '${req.body.birth_date}', '${req.body.gender}', ${req.body.phone_number});`);
+    const newuser = await postgresConnection.query(`INSERT INTO users  (mail, password, name, surname, role, birth_date, gender, phone_number, goal) VALUES ( '${req.body.mail}', crypt('${req.body.password}', gen_salt('bf',4)), '${req.body.name}',
+     '${req.body.surname}', '${req.body.role}', '${req.body.birth_date}', '${req.body.gender}', '${req.body.phone_number}', '${req.body.goal}');`);
 
     res.json(newuser);
   } catch (error) {
@@ -275,9 +275,11 @@ app.get('/upload/:mail', async (req, res) => {
     // PostgreSQL'e yaz
     const query = `select photo from users WHERE mail='${mail}';`;
     const result = await postgresConnection.query(query);
-    const base64Image = result.rows[0].photo.toString('base64');
-    const imageSrc = `data:image/jpeg;base64,${base64Image}`;
-    res.json(imageSrc);
+    if(result){
+      const base64Image = result.rows[0].photo.toString('base64');
+      const imageSrc = `data:image/jpeg;base64,${base64Image}`;
+      res.json(imageSrc);
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send('Bir hata oluştu.');
@@ -326,6 +328,7 @@ app.get("/client/exercise/:mail", async (req, res) => {
 //kullanıcının güncel durumunun sisteme kayıdı
 app.post("/client", async (req, res) => {
   try {
+    console.log("client mail : ", req.body.mail)
     const newRaport = await postgresConnection.query(
       `INSERT INTO users_progress (mail, weight, height, fat_rate, muscle_mass, body_mass_index) VALUES ('${req.body.mail}', ${req.body.weight}, ${req.body.height}, ${req.body.fat_rate}, ${req.body.muscle_mass}, ${req.body.body_mass_index});`
     );
@@ -347,5 +350,296 @@ app.get("/client/raport/:mail", async (req, res) => {
     res.json(ret.rows);
   } catch (error) {
     console.message(error);
+  }
+});
+
+async function choose_trainer(userMail){
+  try {
+    let trainer
+    await postgresConnection.query(`select mail from users where role='trainer'`).then(async(temp)=>{
+      trainer = temp;
+      //console.log("trainers : ",temp);
+    })
+    let found = false;
+    console.log(trainer.rowCount)
+    console.log(trainer.rows)
+    for(let i=0;i<trainer.rowCount;i++){
+      console.log("rows : ",trainer.rows[i])
+      let aMail = trainer.rows[i].mail;
+      console.log("active Mail : ",aMail)
+      let count;
+      await postgresConnection.query(`select * from client_trainer where trainer_mail='${aMail}'`).then(async(trainerM)=>{
+        console.log("row C : ", trainerM.rowCount)
+        count = trainerM.rowCount
+      })
+      if(count < 5){
+        await postgresConnection.query(`select goal from users where mail='${aMail}'`).then(async(Tgoal)=>{
+          await postgresConnection.query(`select goal from users where mail='${userMail}'`).then(async(Ugoal)=>{
+            console.log("goals : ",Tgoal.rows[0].goal, Ugoal.rows[0].goal, aMail)
+            if(Tgoal.rows[0].goal == Ugoal.rows[0].goal){
+              found = true;
+              console.log("last active Mail ! : ",aMail)
+            }
+          })
+        })
+      }
+      if(found){
+        return aMail;
+      }
+    }
+    if(!found){
+      for(let i=0;i<trainer.rowCount;i++){
+        let aMail = trainer.rows[i].mail;
+        let count;
+        await postgresConnection.query(`select * from client_trainer where trainer_mail='${aMail}'`).then(async(trainerM)=>{
+          console.log("row C : ", trainerM.rowCount)
+          count = trainerM.rowCount
+        })
+        if(count <= 5){
+          return aMail;
+        }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/*async function choose_trainer(userMail){
+  try {
+    await postgresConnection.query(`select mail from users where role='trainer'`).then(async(trainerM)=>{
+      console.log(trainerM.rows);
+      let found = false;
+      for(let i=0;i<trainerM.rowCount;i++){
+        let aMail = trainerM.rows[i].mail;
+        console.log("active Mail : ",aMail)
+        const asy = trainer_C(aMail);
+        asy.then(async(count)=>{
+        if(count <= 5){
+          await postgresConnection.query(`select goal from users where mail='${aMail}'`).then(async(Tgoal)=>{
+            await postgresConnection.query(`select goal from users where mail='${userMail}'`).then(async(Ugoal)=>{
+              console.log("goals : ",Tgoal, Ugoal, aMail)
+              if(Tgoal == Ugoal){
+                found = ture;
+                console.log("active Mail : ",aMail)
+                return aMail;
+              }
+            })
+          })
+        }
+      })
+      }
+      if(!found){
+        for(let i=0;i<trainerM.rowCount;i++){
+          let aMail = trainerM.rows[i].mail;
+          console.log(trainer_C(aMail))
+          const asy = trainer_C(aMail);
+          asy.then(async(count)=>{
+          if(count <= 5){
+            return aMail;
+          }
+        })
+        }
+      }
+    }
+    )
+  } catch (error) {
+    console.log(error);
+  }
+}*/
+
+app.post("/trainer_set", async (req, res) => {
+  try {
+    const userMail = req.body.mail;
+    console.log("mail : ",userMail)
+    await postgresConnection.query(`select trainer_mail from client_trainer where client_mail='${userMail}'`).then(async(trainerM)=>{
+      console.log(trainerM.rows[0]);
+      if(trainerM.rows[0]){
+        console.log("trainer mail zaten var")
+      }else{
+        const data = choose_trainer(userMail);
+        data.then(async(trainerM)=>{
+            console.log("final data : ",trainerM)
+          await postgresConnection.query( `INSERT INTO client_trainer (client_mail, trainer_mail) VALUES ('${userMail}', '${trainerM}');`
+        ).then(async(ret)=>{
+          res.json(ret);
+        })
+        })
+      }
+    }
+    )
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/message", async (req, res) => {
+  try {
+    const userMail = req.body.sender_mail;
+    const message = req.body.message;
+    console.log("mail : ",userMail)
+    console.log("message : ",message)
+    let role;
+    await postgresConnection.query(`select role from users where mail='${userMail}'`).then((tmp)=>{
+      role = tmp;
+    })
+    console.log("role : ",role.rows[0].role);
+    if(role.rows[0].role == "client"){
+      console.log("role is client");
+      await postgresConnection.query(`select trainer_mail from client_trainer where client_mail='${userMail}'`).then(async(trainerM)=>{
+        console.log("trainerMail : ", trainerM.rows[0].trainer_mail);
+        await postgresConnection.query( `INSERT INTO messages (sender_mail, receiver_mail, message) VALUES ('${userMail}', '${trainerM.rows[0].trainer_mail}', '${message}');`
+        ).then(async(ret)=>{
+          res.json(ret);
+        })
+      }
+      )
+  }else{
+    const client_mail = req.body.client_mail;
+    await postgresConnection.query( `INSERT INTO messages (sender_mail, receiver_mail, message) VALUES ('${userMail}', '${client_mail}', '${message}');`
+    ).then(async(ret)=>{
+      res.json(ret);
+    }
+    )
+  }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/get_mail/:mail", async (req, res) => {
+  try {
+    let ret;
+    console.log("message get mail : ",req.params.mail)
+    await postgresConnection.query(
+      "select * from messages where receiver_mail=$1",
+      [req.params.mail]
+    ).then((tmp)=>{
+      ret = tmp;
+    })
+    console.log(ret.rows)
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
+
+app.post("/is_enable", async (req, res) => {
+  try {
+    console.log("client mail : ", req.body.mail)
+    const is_enable = await postgresConnection.query(
+      `select is_enabled from users);`
+    );
+
+    res.json(is_enable.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/is_enable/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select is_enabled from users where mail=$1",
+      [req.params.mail]
+    );
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
+
+app.get('/', (req, res) => {
+  res.redirect('/login.html');
+});
+
+app.get("/users", async(req,res)=>{
+  try {
+    const ret = await postgresConnection.query("select * from users where mail!='admin@gmail.com';")
+    res.json(ret.rows)
+  } catch (error) {
+    console.error(error.message)
+  }
+
+})
+
+//EGZERSİZ LİSTESİNİ ÇEK
+
+app.get("/trainer/exercisesList", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query("select * from exercise");
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
+//trainer için danışman listesi
+app.get("/trainer/client/:mail", async (req, res) => {
+  try {
+    const ret = await postgresConnection.query(
+      "select client_mail from client_trainer where trainer_mail=$1",
+      [req.params.mail]
+    );
+    res.json(ret.rows);
+  } catch (error) {
+    console.message(error);
+  }
+});
+// trainer cliente egzersiz ataması
+app.post("/trainer/addExercise", async (req, res) => {
+  try {
+    const newExercises = await postgresConnection.query(
+      `INSERT INTO users_exercise (mail, exercise_id) VALUES ('${req.body.mail}', ${req.body.exerciseId});`
+    );
+    console.log("body : ", req.body);
+    res.json(newExercises);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.delete("/trainer/delete/:mail", async (req, res) => {
+  try {
+    console.log("burada");
+    const newExercises = await postgresConnection.query(
+      "DELETE FROM users_exercise WHERE mail = $1",
+      [req.params.mail]
+    );
+    if (result.rows.length > 0) {
+      res.status(204).send(); // Başarı durumunda 204 No Content yanıtı gönderilir
+    } else {
+      res
+        .status(404)
+        .json({ error: "Belirtilen mail adresine ait veri bulunamadı." });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+/*for (let i = 0; i < liste.length; i++) {
+  try {
+    await fetch(`http://localhost:5000/trainer/exercise/${mail}/${liste[i]}`)
+      .then((data) => {
+        return data.json();
+      })
+      .then(function (data) {
+        console.log(data);
+      });
+  } catch (error) {
+    console.log(error);
+  }
+}*/
+
+app.post("/trainer/addDiet", async (req, res) => {
+  try {
+    const newExercises = await postgresConnection.query(
+      `INSERT INTO diet (goal, calorie,protein, fat, carbonhydrate) VALUES (${req.body.goal}, ${req.body.calorie}, ${req.body.calori});`
+    );
+    console.log("body : ", req.body);
+    res.json(newExercises);
+  } catch (error) {
+    console.log(error);
   }
 });

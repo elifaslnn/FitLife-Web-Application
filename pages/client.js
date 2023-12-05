@@ -9,12 +9,21 @@ const dietBtn = document.querySelector("#dietCard .btn-primary");
 const exerciseBtn = document.querySelector("#exerciseCard .btn-primary");
 const addRaportBtn = document.querySelector("#raportCard .btn-primary");
 const showRaportBtn = document.querySelector("#showRaportButton");
+const MsgBtn = document.getElementById("messagebtn");
+const messageInput = document.getElementById("messageInput");
+const messagevievBtn = document.getElementById("messagevievbtn");
+const messager = document.querySelector("#messager");
+const messageList = document.getElementById("messageList");
+
+
+
 
 dietTable.style.display = "none";
 exerciseTable.style.display = "none";
 raport.style.display = "none";
 previousBtn.style.display = "none";
 raportInfo.style.display = "none";
+messager.style.display = "none";
 
 dietBtn.addEventListener("click", function () {
   cards.style.display = "none";
@@ -22,6 +31,7 @@ dietBtn.addEventListener("click", function () {
   raportInfo.style.display = "none";
   dietTable.style.display = "block";
   previousBtn.style.display = "block";
+  messager.style.display = "none";
 });
 
 exerciseBtn.addEventListener("click", function () {
@@ -30,6 +40,7 @@ exerciseBtn.addEventListener("click", function () {
   raportInfo.style.display = "none";
   exerciseTable.style.display = "block";
   previousBtn.style.display = "block";
+  messager.style.display = "none";
 });
 
 addRaportBtn.addEventListener("click", function () {
@@ -38,6 +49,7 @@ addRaportBtn.addEventListener("click", function () {
   raportInfo.style.display = "none";
   raport.style.display = "block";
   previousBtn.style.display = "block";
+  messager.style.display = "none";
 });
 
 previousBtn.addEventListener("click", function () {
@@ -47,6 +59,58 @@ previousBtn.addEventListener("click", function () {
   raport.style.display = "none";
   previousBtn.style.display = "none";
   raportInfo.style.display = "none";
+  messager.style.display = "none";
+});
+
+messagevievBtn.addEventListener("click", async function () {
+  cards.style.display = "none";
+  dietTable.style.display = "none";
+  raportInfo.style.display = "none";
+  raport.style.display = "block";
+  previousBtn.style.display = "block";
+  messager.style.display = "block";
+  getMessages();
+});
+
+async function getMessages() {
+  mail = receivedData.key;
+  console.log(mail)
+  await fetch(`/get_mail/${mail}`).then((data) => {
+    return data.json();
+  })
+  .then(function (data) {
+    console.log("data : ",data);
+    for(let i = 0; i < data.length; i++){
+      const message = document.createElement("li")
+      message.className="card-text"
+      message.innerHTML = data[i].message
+      messageList.appendChild(message)
+    }
+  });
+}
+
+
+async function send_message(message) {
+  mail = receivedData.key;
+  console.log(mail)
+  const body = {"sender_mail": mail,
+                "message" : message};
+
+  await fetch('/message', {
+    method: 'POST',
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(body)
+  })
+  .catch(error => {
+    console.error('Hata:', error);
+  });
+}
+
+MsgBtn.addEventListener("click", async function () {
+  //send mail to trainer
+  console.log("message : ",messageInput.value)
+  send_message(messageInput.value)
+
 });
 
 showRaportBtn.addEventListener("click", async function () {
@@ -93,11 +157,12 @@ async function myFunction() {
         return data.json();
       })
       .then(function (data) {
+        let i = data.length - 1;
         document.getElementById("nameSurname").innerText =
-          data.name + " " + data.surname;
-        document.getElementById("age").innerHTML = data.birth_date;
-        document.getElementById("weight").innerHTML = data.weight + " kg";
-        document.getElementById("height").innerHTML = data.height + " cm";
+          data[i].name + " " + data[i].surname;
+        document.getElementById("age").innerHTML = data[i].birth_date;
+        document.getElementById("weight").innerHTML = data[i].weight + " kg";
+        document.getElementById("height").innerHTML = data[i].height + " cm";
       });
   } catch (error) {
     console.log(error);
@@ -128,15 +193,23 @@ async function myFunction() {
         return data.json();
       })
       .then(function (data) {
+        const ul = document.createElement("ul");
         for (let i = 0; i < data.length; i++) {
-          document.getElementById("e" + i).innerHTML =
+          const li = document.createElement("li");
+          li.textContent =
             data[i].name +
             "/" +
             data[i].repate +
             " tekrar/" +
             data[i].set +
             " set";
+          li.classList = "exerciseLists";
+          li.id = data[i].video;
+          li.style.cursor = "pointer";
+          console.log("li id: " + li.id);
+          ul.appendChild(li);
         }
+        exerciseTable.appendChild(ul);
       });
   } catch (error) {
     console.log(error);
@@ -179,8 +252,18 @@ async function myFunction() {
   }
 }
 
+const videoFrame = document.getElementById("videoFrame");
+exerciseTable.addEventListener("click", function (e) {
+  console.log(e.target.id);
+  //embed= "https://www.youtube.com/embed/vB5OHsJ3EME?si=FZnlG1LP2qkqLeJw"
+  //url= https://www.youtube.com/watch?v=vB5OHsJ3EME
+  let newString = e.target.id.replaceAll("watch?v=", "embed/");
+  videoFrame.src = newString;
+});
+
 window.onload = function () {
   myFunction();
+  getFile();
 };
 // document
 //   .querySelector(".exersiceList button")
@@ -191,3 +274,40 @@ window.onload = function () {
 //   console.log("here ! ");
 //   myFunction();
 // };
+
+const changeDataPageBtn = document.getElementById("changeDataPageBtn");
+const changePasswordPageBtn = document.getElementById("changePasswordPageBtn");
+
+
+changeDataPageBtn.addEventListener("click", async function () {
+  var dataToSend = { key: mail };
+  // Convert data to a URL-encoded string
+  var queryString = new URLSearchParams(dataToSend).toString();
+  window.location.href = 'update_data.html?' + queryString;
+});
+
+changePasswordPageBtn.addEventListener("click", async function () {
+  var dataToSend = { key: mail };
+  // Convert data to a URL-encoded string
+  var queryString = new URLSearchParams(dataToSend).toString();
+  window.location.href = 'update_password.html?' + queryString;
+});
+
+
+//get photo
+async function getFile() {
+    const body = {"mail": mail};
+    console.log(mail)
+  
+    await fetch(`/upload/${mail}`, {
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log(result)
+
+        document.getElementById("img").src = result
+    })
+    .catch(error => {
+      console.error('Hata:', error);
+    });
+  }

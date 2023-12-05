@@ -1,6 +1,8 @@
 const loginBtn = document.querySelector(".logIn");
 const mailInput = document.querySelector("#mail");
 const passInput = document.querySelector("#password");
+const signInBtn = document.getElementById("signIn");
+const forgetBtn = document.getElementById("forget");
 
 loginBtn.addEventListener("click", async function () {
   console.log("login butonu tıklandı");
@@ -22,6 +24,14 @@ loginBtn.addEventListener("click", async function () {
       });
   } catch (error) {}
 });
+
+signInBtn.addEventListener("click", function () {
+  window.location.href = 'reg.html';
+})
+
+forgetBtn.addEventListener("click", function () {
+  window.location.href = 'forgot.html';
+})
 
 async function findRolePath(){
   console.log("kullanıcı bulundu");

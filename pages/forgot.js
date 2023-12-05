@@ -18,6 +18,8 @@ forgotBtn.addEventListener("click", async function () {
         body: JSON.stringify(body)
     });
       console.log(response);
+      alert("password degistirildi")
+      window.location.href = 'login.html';
     } catch (error) {
       console.error(error.message);
     } 
