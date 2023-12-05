@@ -409,11 +409,12 @@ addRaportBtn.addEventListener("click", function () {
 });
 
 const editDietPlan = document.querySelector(".editDietPlan");
+const editEPlan = document.querySelector(".editEPlan");
 
 // exerciseTable.addEventListener("click", function (e) {
 //   console.log(e.target.checked);
 // });
-editDietPlan.addEventListener("click", async function () {
+editEPlan.addEventListener("click", async function () {
   var liste = [];
   for (let i = 0; i < exerciseTable.childNodes.length; i++) {
     for (let j = 0; j < exerciseTable.childNodes[i].childNodes.length; j++) {
@@ -453,16 +454,38 @@ editDietPlan.addEventListener("click", async function () {
 
 editDietPlan.addEventListener("click", async function () {
   try {
+    console.log("add diet run")
+    console.log()
     const body = {
       mail: mail,
-      exerciseId: liste[i],
+      goal: document.querySelector("#goalSelect").value,
+      calorie: document.querySelector("#r1").value,
+      protein: document.querySelector("#r2").value,
+      fat: document.querySelector("#r3").value,
+      carbohydrate: document.querySelector("#r4").value,
     };
     await fetch(`http://localhost:5000/trainer/addDiet`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
     }).then(function (data) {
-      console.log(data);
+      console.log("here1 : ",data);
+      return data.json();
+    }).then(async(data) => {
+      console.log("here : ",data[0].id);
+      const user_body = {
+        mail: formSelect.value,
+        dietId: data[0].id,
+      };
+      console.log(data.id)
+      await fetch(`http://localhost:5000/trainer/addDietUser`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user_body),
+      }).then(function (userdata) {
+        console.log(userdata);
+      });
+
     });
   } catch (error) {
     console.log(error);

@@ -634,8 +634,22 @@ app.delete("/trainer/delete/:mail", async (req, res) => {
 
 app.post("/trainer/addDiet", async (req, res) => {
   try {
+    console.log("diet : ",req.body)
     const newExercises = await postgresConnection.query(
-      `INSERT INTO diet (goal, calorie,protein, fat, carbonhydrate) VALUES (${req.body.goal}, ${req.body.calorie}, ${req.body.calori});`
+      `INSERT INTO diet (goal, calorie,protein, fat, carbohydrate) VALUES ('${req.body.goal}', ${req.body.calorie}, ${req.body.protein}, ${req.body.fat},${req.body.carbohydrate}) RETURNING *;`,
+      );
+      console.log("diet body : ", newExercises.rows);
+      res.json(newExercises.rows);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/trainer/addDietUser", async (req, res) => {
+  try {
+    console.log("diet : ",req.body)
+    const newExercises = await postgresConnection.query(
+      `INSERT INTO users_diet (mail, diet_id) VALUES ('${req.body.mail}',${req.body.dietId});`
     );
     console.log("body : ", req.body);
     res.json(newExercises);
