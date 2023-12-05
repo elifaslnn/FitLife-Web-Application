@@ -18,17 +18,149 @@
         <img id="img" src="img/elif.png" alt="" />
       </div>
       <div class="info">
-        <li class="in" id="name">Ad Soyad : </li>
-        <li class="in" id="prof">uzmanlık alanı : </li>
-        <li class="in" id="experience">deneyim : </li>
-        <li class="in" id="contact">iletişim : </li>
+        <li class="in" id="name">Ad Soyad :</li>
+        <li class="in" id="prof">uzmanlık alanı :</li>
+        <li class="in" id="experience">deneyim :</li>
+        <li class="in" id="contact">iletişim :</li>
       </div>
-      <button class="form-control" type="submit" id="changeDataPageBtn">changeDataBtn</button>
+      <button class="form-control" type="submit" id="changeDataPageBtn">
+        changeDataBtn
+      </button>
 
-      <button class="form-control" type="submit" id="changePasswordPageBtn">changePasswordBtn</button>
+      <button class="form-control" type="submit" id="changePasswordPageBtn">
+        changePasswordBtn
+      </button>
     </div>
     <!--  -->
-    <!--  -->
+    <div class="container">
+      <div class="cards">
+        <div class="card" id="exerciseCard" style="width: 18rem">
+          <img src="./img/exercise.jfif" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">Egzersiz Planınız</h5>
+            <p class="card-text">Danışmanınızın bilgilerini görüntüleyin.</p>
+            <a href="#" class="btn btn-primary">Egzersiz Planı</a>
+          </div>
+        </div>
+        <!--  -->
+        <div class="card" id="dietCard" style="width: 18rem">
+          <img src="./img/food.jfif" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">Beslenme Planınız</h5>
+            <p class="card-text">
+              Danışmanınız için özel beslenme planı oluşturun.
+            </p>
+            <a href="#" class="btn btn-primary">Beslenme Planı</a>
+          </div>
+        </div>
+        <!--  -->
+        <div class="card" id="raportCard" style="width: 18rem">
+          <img src="./img/raport.jfif" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <h5 class="card-title">İlerleme Kaydınız</h5>
+            <p class="card-text">Danışmanınız için egzersiz planı oluşturun.</p>
+            <a href="#" class="btn btn-primary">Rapor</a>
+          </div>
+        </div>
+      </div>
+      <!--  -->
+      <!--  -->
+      <button class="previous">&laquo; Menü</button>
+      <!--  -->
+      <div class="table" id="exerciseTable">
+        <div class="exercisesList" id="kas">
+          KAS KAZANMA EGZERSİZLERİ
+          <!-- <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Default checkbox
+            </label>
+          </div> -->
+        </div>
+        <div class="exercisesList" id="kiloAlma">KİLO ALMA EGZERSİZLERİ</div>
+        <div class="exercisesList" id="kiloVerme">KİLO VERME EGZERSİZLERİ</div>
+
+        <button class="editDietPlan">Egzersiz Planı Oluştur</button>
+      </div>
+      <!--  -->
+      <select class="form-select bg-dark" name="roles" id="roles"></select>
+      <div class="table" id="dietTable">
+        <ul class="exersiceList">
+          <li>
+            <select
+              class="form-select"
+              id="goalSelect"
+              name="roles"
+              id="roles"
+              placeholder="Diyet Hedefini Giriniz"
+            >
+              <option value="client">Kas Kazanma</option>
+              <option value="trainer">Kilo Alma</option>
+              <option value="trainer">Kilo Verme</option>
+            </select>
+          </li>
+          <li>
+            <input type="number" id="r1" placeholder="Alması Gereken Kalori" />
+          </li>
+
+          <li>
+            <input type="number" id="r2" placeholder="Alması Gereken Protein" />
+          </li>
+          <li>
+            <input type="number" id="r3" placeholder="Alması gereken yağ" />
+          </li>
+          <li>
+            <input
+              type="number"
+              id="r4"
+              placeholder="Alması gereken Karbonhidrat"
+            />
+          </li>
+        </ul>
+        <button class="editDietPlan">Diyet oluştur</button>
+        <div class="dietTableImg">
+          <img src="img/dietTable.jfif" alt="" />
+        </div>
+      </div>
+      <!--  -->
+      <div class="table" id="raporTable">
+        <div class="chooseEvent" id="eDiet">
+          Seçili Kullanıcının Diyet Listesini Göster
+        </div>
+        <div class="chooseEvent" id="eExercise">
+          Seçili Kullanıcının Egzersiz Listesini Göster
+        </div>
+        <div class="chooseEvent" id="eRapor">
+          Seçili Kullanıcının Raporunu Göster
+        </div>
+      </div>
+      <!--  -->
+      <div class="table" id="clientsDiet">
+        <ul class="exersiceList">
+          <li id="dgoal">Hedef:</li>
+          <li id="dcalorie">Kalori:</li>
+          <li id="dprotein">Protein:</li>
+          <li id="dfat">Yağ:</li>
+          <li id="dcarbonhydrate">Karbonhidrat:</li>
+        </ul>
+        <div class="dietTableImg">
+          <img src="img/dietTable.jfif" alt="" />
+        </div>
+      </div>
+      <!--  -->
+      <div class="table" id="clientsExercises">
+        <div class="dietTableImg">
+          <img src="img/exerciseTable.jfif" alt="" />
+        </div>
+      </div>
+      <!--  -->
+      <div class="table" id="clientsRapor"></div>
+    </div>
 
     <script src="trainer.js" type="module"></script>
   </body>

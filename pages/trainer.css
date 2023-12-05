@@ -1,26 +1,247 @@
-.fullPage {
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.sidebar {
+  height: 100%;
+  width: 300px;
+  background-color: rgb(27, 48, 70);
   position: absolute;
-  width: 100%;
-  height: auto;
+}
+
+.profilPhoto {
+  margin: 0 auto;
+  width: 100px;
+  height: 150px;
+  margin-top: 10px;
   display: flex;
-  z-index: -1;
+  justify-content: center;
 }
-#photo {
+.profilPhoto img {
+  margin-top: 50px;
+  width: 150px;
+  height: 170px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.info {
+  padding-top: 20px;
+  list-style: none;
+  display: block;
+  margin: 0 auto;
+}
+.info li {
+  text-align: center;
+  margin-bottom: 10px;
+  color: antiquewhite;
+}
+.container {
+  position: absolute;
+  left: 300px;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(216, 213, 209);
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-top: 20px;
+}
+.cards .card {
+  margin-inline: 10px;
+  position: relative;
+  background-color: rgb(28, 36, 34);
+}
+.card-text {
+  margin-bottom: 40px;
+  color: antiquewhite;
+}
+
+.btn-primary {
+  margin-top: 40px;
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(170, 188, 204);
+  color: rgb(0, 0, 0);
+}
+
+.table {
+  width: 60%;
+  height: 500px;
+  position: absolute;
+  top: 100px;
+  border-radius: 30px;
+  background-color: rgb(28, 36, 34);
+  /* display: flex; */
+  /* flex-direction: row; */
+}
+
+.exersiceList {
+  width: max-content;
+  background-color: rgb(28, 36, 34);
+}
+.table ul li {
+  color: rgb(57, 56, 56);
+  margin-block: 40px;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  height: 40px;
+}
+/* .table ul li input {
+  background-color: antiquewhite;
+  color: rgb(57, 56, 56);
+} */
+
+.exersiceList :hover {
+  background-color: antiquewhite;
+  color: rgb(28, 36, 34);
+}
+
+.dietTableImg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background-color: antiquewhite;
+  border-radius: 30px;
+  align-items: center;
+}
+
+.dietTableImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+
+.previous {
+  border: none;
+  background-color: rgb(170, 188, 204);
+  border-radius: 5px;
+  position: absolute;
+  left: 20px;
+  top: 30px;
+}
+
+.previous :hover {
+  background-color: rgb(27, 48, 70);
+  border-radius: 100%;
+}
+.exersiceList input {
+  background-color: rgb(49, 48, 48);
+  border-radius: 5px;
+}
+.table button {
+  position: absolute;
+  left: 40px;
+  bottom: 20px;
+  background-color: rgb(170, 188, 204);
+  color: black;
+  border-radius: 5px;
+  border: none;
+  width: max-content;
+  height: 40px;
+}
+.table button :hover {
+  background-color: rgb(27, 48, 70);
+}
+
+.dietTableImg iframe {
+  width: 100%;
+  position: absolute;
+  object-fit: fill;
+  top: 20%;
+}
+
+.form-select {
+  height: max-content;
+  width: max-content;
+  margin-top: 20px;
+  color: antiquewhite;
+}
+#goalSelect {
   width: 100%;
 }
 
-.container {
-  padding-top: 30px;
-
+.editDietPlan {
   position: absolute;
-  width: 50%;
-  height: 95%;
-  top: 50%;
-  left: 50%;
-  background-color: rgba(0, 0, 0, 0.712);
-  transform: translate(-50%, -50%);
+  /* left: 20px; */
+  bottom: 20px;
+  background-color: rgb(170, 188, 204);
+  border-radius: 5px;
+  border: none;
+  width: max-content;
+}
+/* .exerciseTable {
+  display: flex;
+  flex-direction: row;
+} */
+
+.exercisesList {
+  width: 30%;
+  margin-left: 10px;
+  margin-top: 20px;
+  border-radius: 15px;
+  height: 80%;
+  background-color: antiquewhite;
+  padding-top: 20px;
+  padding-left: 5px;
+}
+
+.exersiceList {
+  width: max-content;
+}
+.cont {
+  width: 100%;
+  height: max-content;
+  display: flex;
+  flex-direction: row;
+}
+.raporCard {
+  width: min-content;
+  border-radius: 15px;
+  background-color: bisque;
+  color: black;
+}
+.tableS {
+  width: 60%;
+  height: 500px;
+  position: absolute;
+  top: 100px;
+  border-radius: 30px;
+  background-color: rgb(28, 36, 34);
   display: flex;
   flex-direction: column;
-  z-index: 1;
-  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+.chooseEvent {
+  height: max-content;
+  border-radius: 5px;
+  background-color: rgb(131, 172, 228);
+}
+
+@media screen and (max-width: 990px) {
+  .cards {
+    display: block;
+  }
+  .card {
+    margin-top: 20px;
+  }
+  .container {
+    height: max-content;
+  }
+  .sidebar {
+    height: 100%;
+  }
 }
