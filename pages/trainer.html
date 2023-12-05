@@ -33,6 +33,8 @@
     </div>
     <!--  -->
     <div class="container">
+      <select class="form-select bg-dark" name="roles" id="roles"></select>
+       
       <div class="cards">
         <div class="card" id="exerciseCard" style="width: 18rem">
           <img src="./img/exercise.jfif" class="card-img-top" alt="..." />
@@ -62,7 +64,23 @@
             <a href="#" class="btn btn-primary">Rapor</a>
           </div>
         </div>
+        <div class="card" id="messageCard" style="width: 18rem">
+          <img src="./img/mail2.jpg" class="card-img-top" alt="..." />
+          <div class="card-body">
+            <div class="MessageCont">
+              <p class="card-text">
+                Mesaj Gönder
+              </p>
+                  <button id="messagevievbtn" class="btn btn-primary">View</button>
+                  <input type="text" class="form-control" id="messageInput" placeholder="Type your message...">
+            </div>
+            <!--  -->
+          </div>
+        </div>
       </div>
+
+    <button id="messagebtn" class="btn btn-primary">Send</button>
+    <!--  -->
       <!--  -->
       <!--  -->
       <button class="previous">&laquo; Menü</button>
@@ -88,7 +106,6 @@
         <button class="editEPlan">Egzersiz Planı Oluştur</button>
       </div>
       <!--  -->
-      <select class="form-select bg-dark" name="roles" id="roles"></select>
       <div class="table" id="dietTable">
         <ul class="exersiceList">
           <li>
@@ -152,6 +169,17 @@
         </div>
       </div>
       <!--  -->
+      <div class="table" id="messager">
+        <ul class="messageList" id = "messageList">
+          <li class="card-text">
+            mesajlar
+          </li>
+        </ul>
+        <div class="dietTableImg">
+          <img src="img/raportTable.jfif" alt="" />
+        </div>
+      </div>
+        <!--  -->
       <div class="table" id="clientsExercises">
         <div class="dietTableImg">
           <img src="img/exerciseTable.jfif" alt="" />

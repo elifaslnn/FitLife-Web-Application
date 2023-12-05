@@ -29,13 +29,47 @@ yapılacaktır.
 
 // get add danışan
 
+const MsgBtn = document.getElementById("messagebtn");
+const messageInput = document.getElementById("messageInput");
+const messagevievBtn = document.getElementById("messagevievbtn");
+const messager = document.querySelector("#messager");
+const messageList = document.getElementById("messageList");
+
+MsgBtn.addEventListener("click", async function () {
+  //send mail to trainer
+  console.log("message : ",messageInput.value)
+  send_message(messageInput.value)
+
+});
+
+async function getMessages() {
+  mail = receivedData.key;
+  console.log(mail)
+  await fetch(`/get_mail/${mail}`).then((data) => {
+    return data.json();
+  })
+  .then(function (data) {
+    console.log("data : ",data);
+    for(let i = 0; i < data.length; i++){
+      const message = document.createElement("li")
+      message.className="card-text"
+      message.innerHTML = data[i].message
+      messageList.appendChild(message)
+    }
+  });
+}
+
+
+
+
 let mail = "sonemre41@gmail.com";
+var receivedData;
 
 async function myFunction() {
   console.log("here ! ");
   //alert('JavaScript function is running!');
   var urlParams = new URLSearchParams(window.location.search);
-  var receivedData = Object.fromEntries(urlParams.entries());
+  receivedData = Object.fromEntries(urlParams.entries());
   // Use the received data
   console.log(receivedData);
   mail = receivedData.key;
@@ -156,6 +190,7 @@ const kiloVermeLists = document.querySelector("#kiloVerme");
 
 dietTable.style.display = "none";
 exerciseTable.style.display = "none";
+messager.style.display = "none";
 
 async function getExecisesList() {
   try {
@@ -355,6 +390,7 @@ clientsDietBtn.addEventListener("click", function () {
   clientsDiet.style.display = "flex";
   clientsExercises.style.display = "none";
   clientsRapor.style.display = "none";
+  messager.style.display = "none";
   getClientsDiet(formSelect.value);
 });
 clientsExercisesBtn.addEventListener("click", function () {
@@ -363,6 +399,7 @@ clientsExercisesBtn.addEventListener("click", function () {
   clientsDiet.style.display = "none";
   clientsRapor.style.display = "none";
   clientsExercises.style.display = "flex";
+  messager.style.display = "none";
   getClientsExercise(formSelect.value);
 });
 clientsRaporBtn.addEventListener("click", function () {
@@ -371,6 +408,7 @@ clientsRaporBtn.addEventListener("click", function () {
   clientsDiet.style.display = "none";
   clientsRapor.style.display = "flex";
   clientsExercises.style.display = "none";
+  messager.style.display = "none";
   getClientRapor(formSelect.value);
 });
 
@@ -383,6 +421,7 @@ backButton.addEventListener("click", function () {
   clientsExercises.style.display = "none";
   clientsRapor.style.display = "none";
   raporTable.style.display = "none";
+  messager.style.display = "none";
 });
 
 const dietBtn = document.querySelector("#dietCard .btn-primary");
@@ -394,18 +433,21 @@ dietBtn.addEventListener("click", function () {
   dietTable.style.display = "flex";
   raporTable.style.display = "none";
   exerciseTable.style.display = "none";
+  messager.style.display = "none";
 });
 exerciseBtn.addEventListener("click", function () {
   cards.style.display = "none";
   exerciseTable.style.display = "flex";
   raporTable.style.display = "none";
   dietTable.style.display = "none";
+  messager.style.display = "none";
 });
 addRaportBtn.addEventListener("click", function () {
   cards.style.display = "none";
   raporTable.style.display = "flex";
   exerciseTable.style.display = "none";
   dietTable.style.display = "none";
+  messager.style.display = "none";
 });
 
 const editDietPlan = document.querySelector(".editDietPlan");
@@ -490,4 +532,17 @@ editDietPlan.addEventListener("click", async function () {
   } catch (error) {
     console.log(error);
   }
+});
+
+messagevievBtn.addEventListener("click", async function () {
+  raporTable.style.display = "none";
+  console.log(formSelect.value);
+  raporTable.style.display = "none";
+  clientsDiet.style.display = "none";
+  clientsExercises.style.display = "none";
+  clientsRapor.style.display = "none";
+  cards.style.display="none";
+  getClientsDiet(formSelect.value);
+  messager.style.display = "block";
+  getMessages();
 });
