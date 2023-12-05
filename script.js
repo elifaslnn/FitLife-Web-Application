@@ -293,7 +293,7 @@ app.get("/client/:mail", async (req, res) => {
       "select * from users  inner join users_progress on users.mail= users_progress.mail  where users.mail= $1",
       [req.params.mail]
     );
-    res.json(ret.rows[0]);
+    res.json(ret.rows);
   } catch (error) {
     error.message(error);
   }

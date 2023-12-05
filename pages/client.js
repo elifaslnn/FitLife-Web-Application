@@ -157,7 +157,9 @@ async function myFunction() {
         return data.json();
       })
       .then(function (data) {
+        console.log(data)
         let i = data.length - 1;
+        console.log("i : ",i, data.length);
         document.getElementById("nameSurname").innerText =
           data[i].name + " " + data[i].surname;
         document.getElementById("age").innerHTML = data[i].birth_date;

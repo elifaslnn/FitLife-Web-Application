@@ -101,7 +101,7 @@ changeDataBtn.addEventListener("click", async function () {
           }
     
         console.log(response);
-        
+        window.history.back()
       } catch (error) {
         console.error("changeDataBtn error : ", error.message);
         
